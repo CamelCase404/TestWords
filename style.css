@@ -1,0 +1,754 @@
+/* ==========================================================================
+   PREMIUM UI — v2 (без градиентов, чистые цвета, тени, скругления)
+   ========================================================================== */
+
+:root {
+    --bg-main: #f1f5f9;
+    --container-bg: #ffffff;
+    --border-light: #e2e8f0;
+    --border-dark: #0f172a;
+    --card-bg: #0f172a;
+    --card-text: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --drop-hover: #f8fafc;
+    --radius: 11px;
+    --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.04);
+    --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.08);
+    --shadow-lg: 0 16px 40px rgba(15, 23, 42, 0.12);
+}
+
+* {
+    box-sizing: border-box;
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        opacity 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: none;
+}
+
+body {
+    font-family:
+        "Inter",
+        -apple-system,
+        BlinkMacSystemFont,
+        system-ui,
+        sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 24px 16px;
+    user-select: none;
+    -webkit-font-smoothing: antialiased;
+}
+
+.app-container {
+    background-color: var(--container-bg);
+    padding: 40px 36px;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 640px;
+    position: relative;
+    border: 1px solid var(--border-light);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden; /* Фикс: UI не вылезает за стенки */
+}
+
+/* Декоративная линия */
+.top-decorative-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background-color: var(--border-dark);
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+}
+
+/* Скрин-менеджер */
+.screen {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+.screen.hidden {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+.hidden {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+/* Хедер */
+.brand-header {
+    margin-bottom: 32px;
+    text-align: center;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+h1 {
+    font-size: 28px;
+    font-weight: 800;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.8px;
+    text-transform: uppercase;
+    color: var(--text-main);
+}
+
+.subtitle {
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* Конфиг */
+.config-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.panel-section {
+    background-color: #f8fafc;
+    border: 1px solid var(--border-light);
+    padding: 20px;
+    border-radius: var(--radius);
+    text-align: left;
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+}
+
+.panel-section:hover {
+    border-color: #cbd5e1;
+    box-shadow: var(--shadow-sm);
+}
+
+.config-row {
+    display: flex;
+    gap: 16px;
+}
+
+.config-row .config-group {
+    flex: 1;
+}
+
+.config-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.config-group label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-muted);
+}
+
+.form-control {
+    background-color: var(--container-bg);
+    border: 1px solid var(--border-light);
+    color: var(--text-main);
+    padding: 14px 16px;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: inherit;
+    border-radius: 8px;
+    outline: none;
+    width: 100%;
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+}
+
+.form-control:focus {
+    border-color: var(--border-dark);
+    box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.08);
+}
+
+.text-center {
+    text-align: center;
+    font-weight: 700;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+/* Селект */
+.custom-select-wrapper {
+    position: relative;
+    width: 100%;
+}
+select.form-control {
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding: 12px 40px 12px 16px; /* Больше пространства внутри */
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-main);
+    background-color: var(--container-bg);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius);
+    outline: none;
+    width: 100%;
+    /* Тонкая минималистичная стрелка W3C */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://w3.org' viewBox='0 0 24 24' fill='none' stroke='%230f172a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 14px;
+}
+
+/* Эффект наведения на селектор */
+select.form-control:hover {
+    border-color: #cbd5e1;
+    background-color: #fafafa;
+}
+
+/* Фокус состояния */
+select.form-control:focus {
+    border-color: var(--border-dark);
+    box-shadow: 0 0 0 1px var(--border-dark);
+    background-color: var(--container-bg);
+}
+
+/* Кнопки */
+.btn {
+    font-size: 15px;
+    font-weight: 700;
+    padding: 16px 28px;
+    color: var(--card-text);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition:
+        transform 0.2s,
+        box-shadow 0.2s,
+        opacity 0.2s;
+    font-family: inherit;
+}
+
+.btn-primary {
+    background: var(--card-bg);
+    width: 100%;
+    margin-top: 16px;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
+}
+
+.btn-primary:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.15);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.1);
+}
+
+.btn-dark {
+    background: var(--card-bg);
+    width: 100%;
+}
+
+.btn-dark:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+}
+
+/* Игровое поле */
+.top-meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    gap: 16px;
+}
+
+.stat-badge {
+    font-size: 14px;
+    font-weight: 700;
+    background: #f8fafc;
+    padding: 14px 20px;
+    border-radius: var(--radius);
+    color: var(--text-main);
+    flex: 1;
+    text-align: center;
+    border: 1px solid var(--border-light);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Сердечки */
+.lives-container {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    height: 18px;
+}
+
+.heart-svg {
+    width: 20px;
+    height: 18px;
+    fill: var(--border-dark);
+    transition:
+        opacity 0.3s,
+        transform 0.3s;
+}
+
+.heart-svg.lost {
+    opacity: 0.15;
+    transform: scale(0.75);
+}
+
+/* Таймлайн */
+.timeline-container {
+    width: 100%;
+    height: 6px;
+    background-color: var(--border-light);
+    border-radius: 3px;
+    margin-bottom: 32px;
+    overflow: hidden;
+}
+
+.timeline-bar {
+    height: 100%;
+    width: 100%;
+    background-color: var(--border-dark);
+    border-radius: 3px;
+    transform-origin: left center;
+    transition: transform 0.1s linear;
+}
+
+/* Сетка */
+.game-layout {
+    display: grid;
+    grid-template-columns: 140px 1fr 140px;
+    gap: 28px;
+    align-items: center;
+    margin-bottom: 28px;
+}
+
+.side-column {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.center-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Зоны дропа */
+.drop-zone {
+    background: #f8fafc;
+    border: 2px dashed var(--border-light);
+    border-radius: var(--radius);
+    padding: 5px 5px;
+    font-weight: 700;
+    color: var(--text-main);
+    min-height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s;
+}
+
+.drop-zone.active-hover {
+    border-color: var(--border-dark);
+    background: var(--drop-hover);
+    transform: scale(1.04);
+    border-style: solid;
+}
+
+/* Источник */
+.source-zone {
+    background: #f8fafc;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius);
+    width: 100%;
+    min-height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Карточка слова */
+.word-card {
+    transition:
+        transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow 0.2s ease;
+    background: var(--card-bg);
+    color: var(--card-text);
+    padding: 12px 16px;
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    border-radius: var(--radius);
+    cursor: grab;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.15);
+    z-index: 5;
+    white-space: nowrap;
+    transition:
+        transform 0.2s,
+        box-shadow 0.2s;
+}
+
+.word-card:active {
+    cursor: grabbing;
+}
+
+.word-card.dragging {
+    transition: none !important; /* Мгновенная реакция при перетаскивании */
+    opacity: 0.95;
+    transform: scale(1.05);
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.25);
+}
+
+/* Контекст */
+.context-box {
+    font-size: 15px;
+    color: var(--text-muted) !important;
+    min-height: 44px;
+    line-height: 1.5;
+    padding: 0 12px;
+    text-align: center;
+    font-weight: 500;
+}
+
+/* Модалка */
+.modal {
+    position: fixed; /* Фикс: на весь экран, не заезжает за рамки */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: #ffffff;
+    padding: 36px 32px;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 480px;
+    border: 1px solid var(--border-light);
+    box-shadow: var(--shadow-lg);
+}
+
+#modal-status {
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    display: block;
+}
+
+.status-correct {
+    color: #10b981;
+}
+
+.status-wrong {
+    color: #ef4444;
+}
+
+#modal-text {
+    font-size: 15px;
+    margin-bottom: 20px;
+    color: var(--text-main);
+    line-height: 1.6;
+}
+
+.rule-text {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    padding: 16px;
+    background: #f8fafc;
+    border-radius: 8px;
+    border-left: 3px solid var(--card-bg);
+    margin-bottom: 24px;
+}
+
+/* Аналитика */
+.error-item {
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    background: #f8fafc;
+    border-left: 3px solid var(--border-dark);
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.6;
+    border-top: 1px solid var(--border-light);
+    border-right: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-light);
+}
+
+.error-heading {
+    margin: 28px 0 14px 0;
+    color: var(--text-main);
+    text-align: left;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Анимация тряски */
+.shake {
+    animation: strictShake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes strictShake {
+    10%,
+    90% {
+        transform: translate3d(-3px, 0, 0);
+    }
+    20%,
+    80% {
+        transform: translate3d(4px, 0, 0);
+    }
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-6px, 0, 0);
+    }
+    40%,
+    60% {
+        transform: translate3d(6px, 0, 0);
+    }
+}
+
+/* Мобильная адаптация */
+@media (max-width: 540px) {
+    .app-container {
+        padding: 28px 18px;
+    }
+    .game-layout {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .side-column {
+        flex-direction: row;
+        gap: 12px;
+    }
+    .drop-zone {
+        flex: 1;
+        min-height: 50px;
+        font-size: 15px;
+    }
+    .source-zone {
+        min-height: 100px;
+    }
+    h1 {
+        font-size: 22px;
+    }
+
+    .modal-content {
+        padding: 28px 20px;
+    }
+}
+
+/* === FIX v4: финальные правки === */
+
+/* 1) Карточка: лёгкое запаздывание при перетаскивании */
+.word-card {
+    transition:
+        transform 0.3s ease-out,
+        box-shadow 0.2s ease !important;
+}
+.word-card.dragging {
+    /* 0.1s ease-out даёт тот самый эффект "с лёгким отставанием" */
+    transition:
+        transform 0.1s ease-out,
+        box-shadow 0.2s ease !important;
+}
+
+/* 2) Модалка: оригинальный вид (absolute внутри контейнера), БЕЗ затемнений */
+.modal {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    background: #ffffff !important; /* Сплошной белый — скрывает карточку за собой */
+    padding: 25px !important;
+    z-index: 10 !important;
+    /* display НЕ трогаем: оригинальный .modal { display: flex } + .hidden !important работают вместе */
+}
+
+.modal-content {
+    background: #ffffff !important;
+    padding: 40px !important;
+    border-radius: var(--radius) !important;
+    width: 100% !important;
+    max-width: none !important; /* Убираем старые ограничения — заполняет контейнер */
+    border: 1px solid var(--border-light) !important;
+    box-shadow: var(--shadow-lg) !important;
+}
+
+/* 3) Защита от вылезания длинных слов */
+#modal-status,
+#modal-text,
+.rule-text {
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    word-break: break-word !important;
+    hyphens: auto !important;
+}
+
+/* 4) Контейнер шире → модалка внутри тоже шире (~600px вместо ~480px) */
+.app-container {
+    max-width: 800px !important;
+}
+
+/* === FIX v6: Огромный тест + Словарь на весь экран === */
+
+/* 1. Главный контейнер теста */
+.app-container {
+    max-width: 1100px !important; /* Намного шире */
+    min-height: 85vh !important; /* Намного выше */
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 50px 60px !important;
+}
+
+/* Растягиваем экраны на всю высоту контейнера */
+.screen {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+/* Центрируем меню и итоги, а игру растягиваем */
+#start-screen,
+#result-screen {
+    justify-content: center !important;
+}
+
+#game-screen {
+    justify-content: space-between !important;
+}
+
+/* 2. Игровое поле (становится просторным) */
+.game-layout {
+    grid-template-columns: 220px 1fr 220px !important; /* Широкие боковые колонки */
+    flex: 1 !important;
+    align-items: stretch !important;
+    gap: 40px !important;
+}
+
+.side-column {
+    justify-content: space-evenly !important;
+    gap: 20px !important;
+}
+
+.drop-zone {
+    flex: 1 !important;
+    min-height: 30px !important;
+    font-size: 2em !important; /* Крупнее варианты ответов */
+}
+
+.source-zone {
+    flex: 1 !important;
+    min-height: 100px !important; /* Огромная зона для карточки */
+}
+
+.word-card {
+    font-size: 1.5em !important; /* Огромный шрифт карточки */
+    padding: 12px 24px !important;
+}
+
+.context-box {
+    font-size: 18px !important;
+    margin-top: 20px;
+}
+
+/* Модалка теперь будет широкой автоматически, т.к. контейнер 1100px */
+.modal-content {
+    max-width: 800px !important;
+}
+
+/* 3. Словарь на весь экран */
+.dictionary-container {
+    max-width: 100% !important;
+    width: 100% !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    min-height: 100vh !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 40px 6% !important; /* Боковые отступы в процентах */
+}
+
+/* Липкая лента алфавита в словаре */
+.alphabet-ribbon {
+    position: sticky !important;
+    top: 0 !important;
+    background: #ffffff !important;
+    z-index: 100 !important;
+    padding: 15px 0 !important;
+    border-bottom: 2px solid var(--border-dark) !important;
+    box-shadow: 0 10px 15px -10px rgba(0, 0, 0, 0.1) !important;
+    touch-action: pan-x !important;
+    -webkit-overflow-scrolling: touch !important;
+}
+
+/* Сетка карточек в словаре (заполняет всю ширину) */
+.dict-grid {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)) !important;
+    gap: 24px !important;
+}
+
+@media (max-width: 900px) {
+    .app-container {
+        padding: 30px 20px !important;
+    }
+    .game-layout {
+        grid-template-columns: 1fr !important;
+    }
+    .source-zone {
+        min-height: 150px !important;
+    }
+    .word-card {
+        font-size: 26px !important;
+    }
+    .dict-grid {
+        grid-template-columns: 1fr !important;
+    }
+}

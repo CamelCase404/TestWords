@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
+        <title>Орфографический словарь ЕГЭ</title>
+        <link rel="stylesheet" href="style.css" />
+        <style>
+            .dictionary-container {
+                max-width: 840px;
+                margin: 0 auto;
+            }
+            .alphabet-ribbon {
+                display: flex;
+                gap: 8px;
+                overflow-x: auto;
+                padding: 15px 0;
+                border-bottom: 1px solid var(--border-light);
+                margin-bottom: 30px;
+                scrollbar-width: none;
+                touch-action: pan-x !important;
+                -webkit-overflow-scrolling: touch !important;
+            }
+            .alphabet-ribbon::-webkit-scrollbar {
+                display: none;
+            }
+            .ribbon-letter {
+                background: var(--container-bg);
+                border: 1px solid var(--border-light);
+                padding: 10px 18px;
+                font-weight: 700;
+                font-size: 14px;
+                border-radius: 6px;
+                cursor: pointer;
+                white-space: nowrap;
+                text-transform: uppercase;
+                touch-action: manipulation !important;
+            }
+            .ribbon-letter:hover {
+                border-color: var(--border-dark);
+                background: #fafafa;
+            }
+
+            .letter-section {
+                margin-bottom: 45px;
+                text-align: left;
+            }
+            .section-title-letter {
+                font-weight: 900;
+                text-transform: uppercase;
+                color: #000000;
+            }
+            .dict-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 18px;
+            }
+
+            .dict-card {
+                background: #fafafa;
+                border: 1px solid var(--border-light);
+                border-radius: var(--radius);
+                padding: 22px;
+                text-align: left;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.01);
+            }
+            .dict-card:hover {
+                border-color: var(--border-dark);
+                transform: translateY(-2px);
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+            }
+            .dict-word {
+                font-size: 19px;
+                font-weight: 700;
+                color: #000000;
+                margin-bottom: 4px;
+            }
+            .dict-context {
+                font-size: 14px;
+                color: var(--text-muted);
+                margin-bottom: 12px;
+                font-style: italic;
+            }
+            .dict-rule {
+                font-size: 13px;
+                line-height: 1.5;
+                padding-top: 12px;
+                border-top: 1px dashed var(--border-light);
+                color: #222;
+            }
+
+            @media (max-width: 600px) {
+                .dict-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="app-container dictionary-container">
+            <div class="top-decorative-line"></div>
+
+            <div
+                class="brand-header"
+                style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    flex-wrap: wrap;
+                    gap: 16px;
+                "
+            >
+                <div>
+                    <h1>Словарь ФИПИ</h1>
+                    <div class="subtitle">
+                        Полный академический перечень (А — Я)
+                    </div>
+                </div>
+                <a
+                    href="index.html"
+                    class="btn btn-dark"
+                    style="
+                        padding: 14px 24px;
+                        font-size: 12px;
+                        text-decoration: none;
+                        width: auto;
+                        margin: 0;
+                    "
+                    >В тренажер</a
+                >
+            </div>
+
+            <div class="panel-section" style="margin-bottom: 25px">
+                <div class="config-group">
+                    <label for="dict-search-input"
+                        >Глобальный поиск по базе слов и правил:</label
+                    >
+                    <input
+                        type="text"
+                        id="dict-search-input"
+                        class="form-control"
+                        placeholder="Начните вводить искомое слово или орфограмму..."
+                        oninput="filterFullDictionary()"
+                    />
+                </div>
+            </div>
+
+            <div class="alphabet-ribbon" id="alphabet-ribbon-container"></div>
+            <div id="dictionary-sections-wrapper"></div>
+        </div>
+
+        <script src="words.js"></script>
+        <script>
+            function buildFullPageDictionary() {
+                const ribbon = document.getElementById(
+                    "alphabet-ribbon-container",
+                );
+                const wrapper = document.getElementById(
+                    "dictionary-sections-wrapper",
+                );
+                if (!ribbon || !wrapper) return;
+
+                // Исправление бага: Принудительно заменяем латинскую 't' на русскую 'т' на лету для защиты от опечаток
+                const rawLetters = dictionary.map((w) => {
+                    let l = String(w.letter).toLowerCase();
+                    if (l === "t") return "т"; // Фикс латиницы
+                    return l;
+                });
+
+                // Сортируем буквы правильно с учетом русского алфавита (localeCompare)
+                const letters = [...new Set(rawLetters)].sort((a, b) =>
+                    a.localeCompare(b),
+                );
+
+                ribbon.innerHTML = "";
+                letters.forEach((l) => {
+                    const btn = document.createElement("div");
+                    btn.className = "ribbon-letter";
+                    btn.innerText = l;
+                    btn.onclick = () => {
+                        const target = document.getElementById(`section-${l}`);
+                        if (target)
+                            target.scrollIntoView({
+                                behavior: "smooth",
+                                block: "start",
+                            });
+                    };
+                    ribbon.appendChild(btn);
+                });
+
+                const sortedWords = [...dictionary].sort((a, b) =>
+                    a.full.localeCompare(b.full),
+                );
+
+                wrapper.innerHTML = "";
+                letters.forEach((l) => {
+                    // Выбираем слова, учитывая исправленную букву
+                    const letterWords = sortedWords.filter((w) => {
+                        let itemLetter = w.letter.toLowerCase();
+                        if (itemLetter === "t") itemLetter = "т";
+                        return itemLetter === l;
+                    });
+
+                    if (letterWords.length === 0) return;
+
+                    const section = document.createElement("div");
+                    section.className = "letter-section";
+                    section.id = `section-${l}`;
+                    section.innerHTML = `<div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border-dark); padding-bottom: 10px; margin-bottom: 30px;"><div class="section-title-letter" style="border: none; padding: 0; margin: 0; font-size: 42px;">${l}</div><button class="btn btn-dark" style="width: auto; padding: 10px 24px; font-size: 12px; margin: 0; border-radius: 8px;" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">В начало</button></div>`;
+
+                    const grid = document.createElement("div");
+                    grid.className = "dict-grid";
+
+                    letterWords.forEach((w) => {
+                        const card = document.createElement("div");
+                        card.className = "dict-card";
+                        card.innerHTML = `
+                        <div class="dict-word">${w.full}</div>
+                        <div class="dict-context">Значение: ${w.context}</div>
+                        <div class="dict-rule"><strong>Правило:</strong> ${w.rule}</div>
+                    `;
+                        grid.appendChild(card);
+                    });
+
+                    section.appendChild(grid);
+                    wrapper.appendChild(section);
+                });
+            }
+
+            function filterFullDictionary() {
+                const query = document
+                    .getElementById("dict-search-input")
+                    .value.trim()
+                    .toLowerCase();
+                const cards = document.querySelectorAll(".dict-card");
+
+                cards.forEach((card) => {
+                    const text = card.innerText.toLowerCase();
+                    card.style.display = text.includes(query)
+                        ? "block"
+                        : "none";
+                });
+
+                document.querySelectorAll(".letter-section").forEach((sec) => {
+                    const hasVisibleCards = Array.from(
+                        sec.querySelectorAll(".dict-card"),
+                    ).some((c) => c.style.display !== "none");
+                    sec.style.display = hasVisibleCards ? "block" : "none";
+                });
+            }
+
+            window.addEventListener(
+                "DOMContentLoaded",
+                buildFullPageDictionary,
+            );
+        </script>
+    </body>
+</html>
